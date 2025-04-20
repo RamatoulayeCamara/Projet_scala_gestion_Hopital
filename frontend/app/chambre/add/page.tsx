@@ -7,10 +7,10 @@ import { DashboardHeader } from "@/components/dashboard-header";
 import { DashboardShell } from "@/components/dashboard-shell";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
-import { createChambre } from "@/lib/api"; // Assure-toi que cette fonction existe dans /lib/api
+import { createChambre } from "@/lib/api"; 
 
 export default function AddChambrePage() {
-  const [numero, setNumero] = useState(""); // Numéro de la chambre
+  const [numero, setNumero] = useState(""); 
   const [capacite, setCapacite] = useState(0); // Capacité de la chambre
   const [litsOccupes, setLitsOccupes] = useState(0); // Lits occupés dans la chambre
   const [isLoading, setIsLoading] = useState(false); // Etat de chargement pour le bouton
@@ -46,7 +46,7 @@ export default function AddChambrePage() {
       });
 
       // Redirection vers la liste des chambres après l'ajout
-      router.push("/chambre"); // Utilise la route qui affiche toutes les chambres
+      router.push("/chambre"); /
     } catch (error) {
       toast({
         title: "Erreur",
@@ -56,7 +56,7 @@ export default function AddChambrePage() {
         variant: "destructive",
       });
     } finally {
-      setIsLoading(false); // Fin du chargement
+      setIsLoading(false); 
     }
   };
 
