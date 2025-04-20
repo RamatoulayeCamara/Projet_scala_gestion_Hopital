@@ -1,0 +1,16 @@
+2025.04.17 11:58:35 INFO  Started: Metals version 1.5.2 in folders 'C:\Users\PC\Downloads\Projet_scala_gestion_Hopital-main\Projet_scala_gestion_Hopital-main' for client Visual Studio Code 1.99.2.
+2025.04.17 11:58:36 INFO  time: initialize in 0.13s
+2025.04.17 11:58:40 INFO  Attempting to connect to the build server...
+2025.04.17 11:58:40 INFO  No running Bloop server found, starting one.
+2025.04.17 11:58:46 INFO  Starting compilation server
+2025.04.17 11:58:50 INFO  tracing is disabled for protocol BSP, to enable tracing of incoming and outgoing JSON messages create an empty file at C:\Users\PC\Downloads\Projet_scala_gestion_Hopital-main\Projet_scala_gestion_Hopital-main\.metals\bsp.trace.json or C:\Users\PC\AppData\Local\scalameta\metals\cache\bsp.trace.json
+2025.04.17 11:58:52 INFO  time: Connected to build server in 12s
+2025.04.17 11:58:52 INFO  Connected to Build server: Bloop v2.0.9
+2025.04.17 11:58:54 INFO  time: Imported build in 1.27s
+2025.04.17 11:59:45 INFO  time: indexed workspace in 51s
+avr. 17, 2025 12:11:55 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
+2025.04.17 12:19:29 INFO  Shutting down server
+2025.04.17 12:19:29 INFO  shutting down Metals
+2025.04.17 12:19:29 INFO  Shut down connection with build server.
+2025.04.17 12:19:30 INFO  Exiting server

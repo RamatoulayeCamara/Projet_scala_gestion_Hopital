@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  scala-backend:
+    build: ./backend
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mysql
+    networks:
+      - backend_network
+
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: BDD_werral_ak_jamm
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql-data:/var/lib/mysql
+      - ./backend/bdd_werral_ak_jamm.sql:/docker-entrypoint-initdb.d/bdd_werral_ak_jamm.sql
+    networks:
+      - backend_network
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    networks:
+      - backend_network
+    depends_on:
+      - scala-backend
+
+networks:
+  backend_network:
+    driver: bridge

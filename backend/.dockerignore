@@ -1,0 +1,17 @@
+target/
+.idea/
+.git/
+.sbt/
+logs
+target
+/.bsp
+/.idea_modules
+/.classpath
+/.project
+/.settings
+/RUNNING_PID
+node_modules
+*.log
+*.sock
+.env
+mysql-data
