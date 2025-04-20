@@ -123,6 +123,24 @@ export async function fetchPersonnelsByRole(role: string): Promise<Personnel[]> 
   return res.json()  // Retourne la liste du personnel selon son rôle
 }
 
+// @/lib/api.ts
+export async function createPersonnel(personnel: Partial<Personnel>): Promise<Personnel> {
+  const res = await fetch("http://localhost:9000/personnel", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(personnel),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Erreur API: ${res.status}`);
+  }
+
+  return res.json(); // Retourne le personnel créé
+}
+
+
 export async function deletePersonnel(id: number): Promise<void> {
   const res = await fetch(`http://localhost:9000/personnel/${id}`, {
     method: "DELETE",
