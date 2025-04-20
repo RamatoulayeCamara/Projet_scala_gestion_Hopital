@@ -165,7 +165,11 @@ export async function fetchChambres(): Promise<Chambre[]> {
 }
 
 // Fonction pour ajouter une chambre
-export async function createChambre(chambre: { numero: string, capacite: number, lits_occupes: number }): Promise<Chambre> {
+export async function createChambre(chambre: {
+  capacite: number;
+  numero: string;
+  litsOccupes: number
+}): Promise<Chambre> {
   const res = await fetch('http://localhost:9000/chambres', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

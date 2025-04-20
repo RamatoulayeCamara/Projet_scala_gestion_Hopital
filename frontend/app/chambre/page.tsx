@@ -64,7 +64,7 @@ export default function ChambresPage() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Gestion des chambres" description="Consultez et gérez les chambres de l'hôpital">
-        <Link href="/chambres/add">
+        <Link href="/chambre/add">
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
             Nouvelle chambre
