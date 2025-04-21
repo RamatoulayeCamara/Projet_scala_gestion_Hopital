@@ -5,10 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { fetchGardes, deleteGarde } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
-import { DashboardShell } from "@/components/dashboard-shell";
-import { DashboardHeader } from "@/components/dashboard-header";
-import { PlusCircle, Trash2, Edit } from "lucide-react";
-import Link from "next/link";
 
 export default function GardesPage() {
   const [gardes, setGardes] = useState<any[]>([]);
@@ -54,16 +50,12 @@ export default function GardesPage() {
   };
 
   return (
-    <DashboardShell>
-      <DashboardHeader heading="Gestion des gardes" description="Consultez et gérez les gardes des personnels médicaux">
-        <Link href="/gardes/add">
-          <Button>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Ajouter une garde
-          </Button>
-        </Link>
-      </DashboardHeader>
-
+    <div className="space-y-8 max-w-7xl mx-auto px-4">
+      <h1 className="text-2xl font-bold mb-4 text-center">Liste des Gardes</h1>
+      <div className="flex justify-center">
+        <Button className="bg-blue-500 text-white hover:bg-blue-600">Ajouter une garde</Button>
+      </div>
+      
       {isLoading ? (
         <div className="flex justify-center p-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -77,47 +69,25 @@ export default function GardesPage() {
                 <TableHead>Personnel</TableHead>
                 <TableHead>Date de début</TableHead>
                 <TableHead>Date de fin</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {gardes.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8">
-                    Aucune garde trouvée
+              {gardes.map((garde) => (
+                <TableRow key={garde.id}>
+                  <TableCell>{garde.id}</TableCell>
+                  <TableCell>{garde.personnelId}</TableCell> {/* Remplacer par le nom du personnel si nécessaire */}
+                  <TableCell>{garde.dateDebut}</TableCell>
+                  <TableCell>{garde.dateFin}</TableCell>
+                  <TableCell>
+                    <Button variant="ghost" size="sm" onClick={() => handleDelete(garde.id)}>Supprimer</Button>
                   </TableCell>
                 </TableRow>
-              ) : (
-                gardes.map((garde) => (
-                  <TableRow key={garde.id} className="even:bg-gray-100">
-                    <TableCell>{garde.id}</TableCell>
-                    <TableCell>{garde.personnelId}</TableCell> {/* Remplacez par le nom du personnel si nécessaire */}
-                    <TableCell>{garde.dateDebut}</TableCell>
-                    <TableCell>{garde.dateFin}</TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Link href={`/gardes/edit/${garde.id}`}>
-                          <Button variant="ghost" size="sm">
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                        </Link>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => handleDelete(garde.id)}
-                          className="text-red-500"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
+              ))}
             </TableBody>
           </Table>
         </div>
       )}
-    </DashboardShell>
+    </div>
   );
 }

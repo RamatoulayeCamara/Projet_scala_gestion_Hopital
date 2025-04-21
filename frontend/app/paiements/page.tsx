@@ -5,57 +5,46 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { DashboardShell } from "@/components/dashboard-shell";
-import { PlusCircle, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { fetchPaiements } from "@/lib/api"; // Fonction pour récupérer les paiements
+import { fetchPaiements } from "@/lib/api";
 import { useToast } from "@/components/ui/use-toast";
 import { Paiement } from "@/types";
-import Link from "next/link";
 
 export default function PaiementsPage() {
-  const [paiements, setPaiements] = useState<Paiement[]>([]);  // Initialiser l'état des paiements
-  const [isLoading, setIsLoading] = useState(true);  // Gérer l'état de chargement
-  const [searchTerm, setSearchTerm] = useState("");  // Gérer la recherche
-  const { toast } = useToast();  // Utilisation du hook de toast pour afficher les messages
+  const [paiements, setPaiements] = useState<Paiement[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { toast } = useToast();
 
-  // Utilisation de useEffect pour récupérer les paiements à chaque changement de la page
   useEffect(() => {
     const getPaiements = async () => {
       try {
-        // Appel API pour récupérer les paiements
         const data = await fetchPaiements();
-        setPaiements(data);  // Mettre à jour l'état avec les données reçues
+        setPaiements(data);
       } catch (error) {
-        // En cas d'erreur, afficher un message
         toast({
           title: "Erreur",
           description: "Impossible de charger les paiements",
           variant: "destructive",
         });
       } finally {
-        setIsLoading(false);  // Mettre fin à l'état de chargement
+        setIsLoading(false);
       }
     };
 
-    getPaiements();  // Appel de la fonction pour charger les paiements
+    getPaiements();
   }, [toast]);
 
-  // Filtrer les paiements en fonction de la recherche
   const filteredPaiements = paiements.filter(
     (paiement) =>
-      (paiement.id?.toString().includes(searchTerm) ?? false) ||
-      paiement.statut.toLowerCase().includes(searchTerm.toLowerCase())
+      (paiement.id?.toString().includes(searchTerm) ?? false) || paiement.statut.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <DashboardShell>
       <DashboardHeader heading="Gestion des paiements" description="Consultez et gérez les paiements">
-        <Link href="/paiements/nouveau">
-          <Button>
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Nouvelle Facture
-          </Button>
-        </Link>
+        <Button variant="outline">Nouvelle Facture</Button>
       </DashboardHeader>
 
       <div className="flex items-center py-4">

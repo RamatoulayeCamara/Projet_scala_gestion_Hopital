@@ -1,128 +1,132 @@
-"use client"
+"use client";
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DashboardHeader } from "@/components/dashboard-header";
 import { DashboardShell } from "@/components/dashboard-shell";
-import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
-import { createChambre } from "@/lib/api"; // Importez la fonction de création de chambre
-
-// Interface de la chambre pour la création
-interface Chambre {
-  numero: string;
-  capacite: number;
-  lits_occupes: number;
-}
+import { useRouter } from "next/navigation";
+import { createChambre } from "@/lib/api"; 
 
 export default function AddChambrePage() {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const { toast } = useToast();
-  const [formData, setFormData] = useState({
-    numero: "",
-    capacite: 0,
-    litsOccupes: 0,
-  });
+  const [numero, setNumero] = useState(""); 
+  const [capacite, setCapacite] = useState(0); // Capacité de la chambre
+  const [litsOccupes, setLitsOccupes] = useState(0); // Lits occupés dans la chambre
+  const [isLoading, setIsLoading] = useState(false); // Etat de chargement pour le bouton
+  const { toast } = useToast(); // Gestion des toast
+  const router = useRouter(); // Pour la redirection après soumission
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));  // Mise à jour de l'état du formulaire
-  };
-    
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true); // Démarre l'état de chargement
+    setIsLoading(true); // Activation du chargement
 
-    // Vérification des données envoyées avant d'appeler l'API
-    console.log("Données envoyées au backend :", formData);
+    // Validation des champs
+    if (!numero || capacite <= 0 || litsOccupes < 0 || litsOccupes > capacite) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez remplir correctement tous les champs.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
 
     try {
-      // Appel à l'API pour créer un personnel
-      await createChambre(formData);
-      toast({
-        title: "Succès",
-        description: "La chambre a été créé avec succès",
+      // Appel à la fonction pour créer une chambre
+      const chambre = await createChambre({
+        numero,
+        capacite,
+        litsOccupes: litsOccupes, // Utilisation de litsOccupes sans underscore
       });
 
-      router.push("/chambre");  // Redirige vers la page des personnels après l'ajout
+      toast({
+        title: "Succès",
+        description: "Chambre ajoutée avec succès",
+      });
+
+      // Redirection vers la liste des chambres après l'ajout
+      router.push("/chambre"); 
     } catch (error) {
       toast({
         title: "Erreur",
-        description: error instanceof Error ? error.message : "Une erreur s'est produite lors de la création du membre du personnel",
+        description: `Impossible d'ajouter la chambre : ${
+            error instanceof Error ? error.message : "Erreur inconnue"
+        }`,
         variant: "destructive",
       });
     } finally {
-      setIsLoading(false); // Fin de l'état de chargement
+      setIsLoading(false); 
     }
-  }
+  };
 
-
-  
 
   return (
-    <DashboardShell>
-      <DashboardHeader heading="Ajouter une chambre" description="Ajoutez une nouvelle chambre à l'hôpital">
-        <Button variant="outline" onClick={() => router.push("/chambres")}>
-          Retour
-        </Button>
-      </DashboardHeader>
-
-      <form onSubmit={handleSubmit}>
-        <div className="space-y-4">
-    
-          {/* Label et champ pour le numéro de la chambre */}
-          <div>
-            <label htmlFor="numero" className="block text-sm font-medium text-gray-700">
-              Numéro de la chambre
-            </label>
-            <Input
-              id="numero"
-              placeholder="Numéro de la chambre"
-              value={formData.numero}
-              onChange={(e) =>  setFormData({ ...formData, numero: e.target.value })}
-              required
-            />
-          </div>
-          {/* L'id de la chambre sera généré automatiquement */}
-
-          {/* Label et champ pour la capacité de la chambre */}
-          <div>
-            <label htmlFor="capacite" className="block text-sm font-medium text-gray-700">
-              Capacité
-            </label>
-            <Input
-              id="capacite"
-              placeholder="Capacité"
-              type="number"
-              value={formData.capacite}
-              onChange={(e) =>  setFormData({ ...formData, capacite: Number(e.target.value) })}
-              required
-            />
-          </div>
-
-          {/* Label et champ pour les lits occupés */}
-          <div>
-            <label htmlFor="litsOccupes" className="block text-sm font-medium text-gray-700">
-              Lits occupés
-            </label>
-            <Input
-              id="litsOccupes"
-              placeholder="Lits occupés"
-              type="number"
-              value={formData.litsOccupes}
-              onChange={(e) =>  setFormData({ ...formData, litsOccupes: Number(e.target.value) })}
-              required
-            />
-          </div>
-
-          {/* Bouton pour soumettre le formulaire */}
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? "Ajout en cours..." : "Ajouter la chambre"}
+      <DashboardShell>
+        <DashboardHeader
+            heading="Ajouter une chambre"
+            description="Ajoutez une nouvelle chambre à l'hôpital"
+        >
+          <Button variant="outline" onClick={() => router.push("/chambre")}>
+            Retour
           </Button>
+        </DashboardHeader>
+
+        <div className="max-w-xl mx-auto py-8">
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <label
+                  htmlFor="numero"
+                  className="block text-sm font-medium text-gray-700"
+              >
+                Numéro de la chambre
+              </label>
+              <Input
+                  id="numero"
+                  type="text"
+                  value={numero}
+                  onChange={(e) => setNumero(e.target.value)}
+                  required
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                  htmlFor="capacite"
+                  className="block text-sm font-medium text-gray-700"
+              >
+                Capacité
+              </label>
+              <Input
+                  id="capacite"
+                  type="number"
+                  value={capacite}
+                  onChange={(e) => setCapacite(Number(e.target.value))}
+                  required
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                  htmlFor="litsOccupes"
+                  className="block text-sm font-medium text-gray-700"
+              >
+                Lits occupés
+              </label>
+              <Input
+                  id="litsOccupes"
+                  type="number"
+                  value={litsOccupes}
+                  onChange={(e) => setLitsOccupes(Number(e.target.value))}
+                  required
+              />
+            </div>
+
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? "Ajout en cours..." : "Ajouter la chambre"}
+            </Button>
+          </form>
         </div>
-      </form>
-    </DashboardShell>
+      </DashboardShell>
   );
 }

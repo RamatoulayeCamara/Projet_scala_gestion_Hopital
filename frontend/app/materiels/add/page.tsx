@@ -1,27 +1,17 @@
-"use client";
+"use client"; // Ajouter cette ligne en haut du fichier
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { DashboardHeader } from "@/components/dashboard-header";
-import { DashboardShell } from "@/components/dashboard-shell";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/components/ui/use-toast";
+import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation"; // Pour la redirection après ajout
 import { createMateriel } from "@/lib/api"; // Assurez-vous que la fonction `createMateriel` existe dans `api.ts`
+import Link from "next/link"; // Pour la redirection via Link
+import { toast } from "sonner";
 
-interface Materiel {
-  nom: string;
-  quantite: number;
-  fournisseur: string;
-  dateEntree: string;
-  dateSortie?: string | null;
-}
-
-export default function AddMaterielPage() {
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const { toast } = useToast();
-  const [formData, setFormData] = useState({
+export default function MaterielForm() {
+  const [materiel, setMateriel] = useState({
+    id: "",          // Ajout de l'ID dans l'état
     nom: "",
     quantite: 0,
     fournisseur: "",
@@ -29,120 +19,144 @@ export default function AddMaterielPage() {
     dateSortie: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const router = useRouter();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));  // Mise à jour de l'état du formulaire
+    setMateriel((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
-    
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true); // Démarre l'état de chargement
 
-    // Vérification des données envoyées avant d'appeler l'API
-    console.log("Données envoyées au backend :", formData);
-    try {
-      // Appel à l'API pour créer un personnel
-      await createMateriel(formData);
-      toast({
-        title: "Succès",
-        description: "La chambre a été créé avec succès",
-      });
-
-      router.push("/materiels");  // Redirige vers la page des personnels après l'ajout
-    } catch (error) {
-      toast({
-        title: "Erreur",
-        description: error instanceof Error ? error.message : "Une erreur s'est produite lors de la création du materiel",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false); // Fin de l'état de chargement
+    // Vérification des données avant envoi
+    if (!materiel.id || !materiel.nom || !materiel.quantite || !materiel.fournisseur || !materiel.dateEntree) {
+      toast.error("Tous les champs obligatoires doivent être remplis.");
+      return;
     }
-  }
-  
+
+    console.log("Données soumises :", materiel); // Log des données avant l'envoi à l'API
+
+    try {
+      const addedMateriel = await createMateriel({
+        id: materiel.id ? parseInt(materiel.id, 10) : undefined, // Passer l'ID dans le backend
+        nom: materiel.nom,
+        quantite: materiel.quantite,
+        fournisseur: materiel.fournisseur,
+        dateEntree: materiel.dateEntree,
+        dateSortie: materiel.dateSortie || null, // Utiliser `null` si la sortie est vide
+      });
+
+      console.log("Matériel ajouté :", addedMateriel); // Log après l'ajout du matériel
+
+      // Rediriger vers la page des matériels après la création réussie
+      router.push("/materiels");
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : "Erreur inconnue";
+      toast.error(`Une erreur est survenue : ${errorMessage}`);
+    }
+  };
 
   return (
-    <DashboardShell>
-      <DashboardHeader heading="Ajouter un matériel" description="Ajoutez un nouveau matériel à l'inventaire">
-        <Button variant="outline" onClick={() => router.push("/materiels")}>
-          Retour
-        </Button>
-      </DashboardHeader>
+    <div className="max-w-4xl mx-auto p-8">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <h1 className="text-2xl font-bold">Ajouter un matériel</h1>
+        <p className="text-gray-600">Remplissez les informations ci-dessous pour ajouter un nouveau matériel.</p>
 
-      <form onSubmit={handleSubmit}>
-        <div className="space-y-4">
-          <div>
-            <label htmlFor="nom" className="block text-sm font-medium text-gray-700">
-              Nom du matériel
-            </label>
-            <Input
-              id="nom"
-              name="Nom du materiel"
-              value={formData.nom}
-              onChange={(e) =>  setFormData({ ...formData, nom: e.target.value })}
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="quantite" className="block text-sm font-medium text-gray-700">
-              Quantité
-            </label>
-            <Input
-              id="quantite"
-              name="quantite"
-              type="number"
-              value={formData.quantite}
-              onChange={(e) =>  setFormData({ ...formData, quantite: Number(e.target.value) })}
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="fournisseur" className="block text-sm font-medium text-gray-700">
-              Fournisseur
-            </label>
-            <Input
-              id="fournisseur"
-              name="fournisseur"
-              value={formData.fournisseur}
-              onChange={(e) =>  setFormData({ ...formData, fournisseur: e.target.value })}
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="dateEntree" className="block text-sm font-medium text-gray-700">
-              Date d'entrée
-            </label>
-            <Input
-              id="dateEntree"
-              name="dateEntree"
-              type="date"
-              value={formData.dateEntree}
-              onChange={(e) =>  setFormData({ ...formData, dateEntree: e.target.value })}
-              required
-            />
-          </div>
-
-          <div>
-            <label htmlFor="dateSortie" className="block text-sm font-medium text-gray-700">
-              Date de sortie (optionnelle)
-            </label>
-            <Input
-              id="dateSortie"
-              name="dateSortie"
-              type="date"
-              value={formData.dateSortie || ""}
-              onChange={(e) =>  setFormData({ ...formData, dateSortie: e.target.value })}
-            />
-          </div>
-
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? "Ajout en cours..." : "Ajouter le matériel"}
-          </Button>
+        {/* ID du matériel */}
+        <div>
+          <Label htmlFor="id">ID du matériel</Label>
+          <Input
+            id="id"
+            name="id"
+            value={materiel.id}
+            onChange={handleChange}
+            required
+            className="mt-1"
+          />
         </div>
+
+        {/* Nom du matériel */}
+        <div>
+          <Label htmlFor="nom">Nom du matériel</Label>
+          <Input
+            id="nom"
+            name="nom"
+            value={materiel.nom}
+            onChange={handleChange}
+            required
+            className="mt-1"
+          />
+        </div>
+
+        {/* Quantité */}
+        <div>
+          <Label htmlFor="quantite">Quantité</Label>
+          <Input
+            id="quantite"
+            name="quantite"
+            type="number"
+            value={materiel.quantite}
+            onChange={handleChange}
+            required
+            className="mt-1"
+          />
+        </div>
+
+        {/* Fournisseur */}
+        <div>
+          <Label htmlFor="fournisseur">Fournisseur</Label>
+          <Input
+            id="fournisseur"
+            name="fournisseur"
+            value={materiel.fournisseur}
+            onChange={handleChange}
+            required
+            className="mt-1"
+          />
+        </div>
+
+        {/* Date d'entrée */}
+        <div>
+          <Label htmlFor="dateEntree">Date d'entrée</Label>
+          <Input
+            id="dateEntree"
+            name="dateEntree"
+            type="date"
+            value={materiel.dateEntree}
+            onChange={handleChange}
+            required
+            className="mt-1"
+          />
+        </div>
+
+        {/* Date de sortie (optionnel) */}
+        <div>
+          <Label htmlFor="dateSortie">Date de sortie (optionnel)</Label>
+          <Input
+            id="dateSortie"
+            name="dateSortie"
+            type="date"
+            value={materiel.dateSortie || ""}
+            onChange={handleChange}
+            className="mt-1"
+          />
+        </div>
+
+        <Button type="submit" className="mt-4 w-full">Ajouter</Button>
       </form>
-    </DashboardShell>
+
+      {/* Bouton Retour à la liste des matériels */}
+      <div className="mt-6">
+        <Link href="/materiels">
+          <Button variant="outline" className="w-full">
+            Retour à la liste des matériels
+          </Button>
+        </Link>
+      </div>
+    </div>
   );
 }

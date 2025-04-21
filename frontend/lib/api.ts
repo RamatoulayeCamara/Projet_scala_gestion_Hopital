@@ -97,23 +97,6 @@ export async function deleteRendezVous(id: number): Promise<void> {
 
   return Promise.resolve()  // Aucune donnée retournée après la suppression
 }
-export async function createRendezVous(rendezVous: Partial<RendezVous>): Promise<RendezVous> {
-  const res = await fetch("http://localhost:9000/rendezvous", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(rendezVous),
-  })
-
-  if (!res.ok) {
-    throw new Error(`Erreur API: ${res.status}`)
-  }
-
-  return res.json()  // Retourne le rendez-vous créé
-}
-
-
 
 // API Personnel
 export async function fetchPersonnels(): Promise<Personnel[]> {
@@ -132,23 +115,6 @@ export async function fetchPersonnel(id: number): Promise<Personnel> {
   return res.json()  // Retourne un personnel par son ID
 }
 
-// creer un personnel
-export async function createPersonnel(personnel: Partial<Personnel>): Promise<Personnel> {
-  const res = await fetch(`http://localhost:9000/personnel`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(personnel),
-  })
-
-  if (!res.ok) {
-    throw new Error(`Erreur API: ${res.status}`)
-  }
-
-  return res.json()  // Retourne le personnel créé
-}
-
 export async function fetchPersonnelsByRole(role: string): Promise<Personnel[]> {
   const res = await fetch(`http://localhost:9000/personnel/role/${role}`)
   if (!res.ok) {
@@ -156,6 +122,24 @@ export async function fetchPersonnelsByRole(role: string): Promise<Personnel[]> 
   }
   return res.json()  // Retourne la liste du personnel selon son rôle
 }
+
+// @/lib/api.ts
+export async function createPersonnel(personnel: Partial<Personnel>): Promise<Personnel> {
+  const res = await fetch("http://localhost:9000/personnel", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(personnel),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Erreur API: ${res.status}`);
+  }
+
+  return res.json(); // Retourne le personnel créé
+}
+
 
 export async function deletePersonnel(id: number): Promise<void> {
   const res = await fetch(`http://localhost:9000/personnel/${id}`, {
@@ -171,7 +155,7 @@ export async function deletePersonnel(id: number): Promise<void> {
 
 // API Chambres
 
-
+// lib/api.ts
 
 // Fonction pour récupérer toutes les chambres
 export async function fetchChambres(): Promise<Chambre[]> {
@@ -181,7 +165,11 @@ export async function fetchChambres(): Promise<Chambre[]> {
 }
 
 // Fonction pour ajouter une chambre
-export async function createChambre(chambre:  Partial<Chambre>): Promise<Chambre> {
+export async function createChambre(chambre: {
+  capacite: number;
+  numero: string;
+  litsOccupes: number
+}): Promise<Chambre> {
   const res = await fetch('http://localhost:9000/chambres', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -213,13 +201,13 @@ export async function updateChambre(id: number, chambre: { numero: string, capac
 // API Paiement
 // Fonction pour récupérer tous les paiements
 export async function fetchPaiements(): Promise<Paiement[]> {
-  const res = await fetch(`http://localhost:9000/paiements`);
+  const res = await fetch('http://localhost:9000/paiements');
   if (!res.ok) throw new Error(`Erreur API: ${res.status}`);
   return res.json();  // Retourner les paiements au format JSON
 }
 // Fonction pour ajouter un paiement
-export async function createPaiement(paiement:  Partial<Paiement>): Promise<Paiement> {
-  const res = await fetch(`http://localhost:9000/paiements`, {
+export async function createPaiement(paiement: { montant: number, date: string, patientId: number }): Promise<Paiement> {
+  const res = await fetch('http://localhost:9000/paiements', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },    
     body: JSON.stringify(paiement),
@@ -263,7 +251,6 @@ export async function fetchMateriel(id: number): Promise<Materiel> {
 }
 
 // Fonction pour créer un nouveau matériel
-
 export async function createMateriel(materiel: Partial<Materiel>): Promise<Materiel> {
   const res = await fetch('http://localhost:9000/materiels', {
     method: 'POST',

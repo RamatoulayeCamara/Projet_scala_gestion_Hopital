@@ -73,7 +73,7 @@ export default function PersonnelPage() {
   return (
     <DashboardShell>
       <DashboardHeader heading="Gestion du personnel" description="Consultez et gérez le personnel médical">
-        <Link href="/personnel/nouveau ">
+        <Link href="/personnel/add">
           <Button>
             <PlusCircle className="mr-2 h-4 w-4" />
             Nouveau membre

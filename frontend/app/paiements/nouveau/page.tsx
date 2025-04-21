@@ -1,211 +1,162 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { DashboardHeader } from "@/components/dashboard-header";
-import { DashboardShell } from "@/components/dashboard-shell";
-import { useRouter } from "next/navigation"; // Pour la redirection après ajout
-import { useToast } from "@/components/ui/use-toast";
-import { createPaiement } from "@/lib/api"; // Assurez-vous que cette fonction existe et est correcte
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"; // Pour la sélection du patient et de la chambre
-import { Label } from "@/components/ui/label";
-import { fetchPatients, fetchChambres } from "@/lib/api"; // Importez les fonctions pour récupérer les patients et chambres
-import { Paiement } from "@/types";
+import type React from "react"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+import { DashboardHeader } from "@/components/dashboard-header"
+import { DashboardShell } from "@/components/dashboard-shell"
+import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
+import { useToast } from "@/hooks/use-toast"
 
 export default function NouvelleFacturePage() {
-  const router = useRouter();
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
-  const [patients, setPatients] = useState<any[]>([]); // Utilisation de l'état pour les patients
-  const [chambres, setChambres] = useState<any[]>([]); // Utilisation de l'état pour les chambres
-  const [formData, setFormData] = useState({
-    patientId: "",  // ID du patient
-    chambreId: "",  // ID de la chambre
-    montant: 0,     // Montant du paiement
-    datePaiement: "", // Date du paiement
-    statut: "Payé", // Statut du paiement
-  });
+  const router = useRouter()
+  const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState(false)
 
-  useEffect(() => {
-    // Fonction pour récupérer les patients depuis l'API
-    const getPatients = async () => {
-      try {
-        const data = await fetchPatients(); // Récupération des patients depuis l'API
-        setPatients(data); // Mise à jour de l'état avec les données des patients
-      } catch (error) {
-        toast({
-          title: "Erreur",
-          description: "Impossible de charger les patients.",
-          variant: "destructive",
-        });
-      }
-    };
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setIsLoading(true)
 
-    // Fonction pour récupérer les chambres depuis l'API
-    const getChambres = async () => {
-      try {
-        const data = await fetchChambres(); // Récupération des chambres depuis l'API
-        setChambres(data); // Mise à jour de l'état avec les données des chambres
-      } catch (error) {
-        toast({
-          title: "Erreur",
-          description: "Impossible de charger les chambres.",
-          variant: "destructive",
-        });
-      }
-    };
-
-    getPatients(); // Appel de la fonction lors du montage du composant
-    getChambres(); // Appel pour récupérer les chambres
-  }, [toast]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value })); // Mise à jour de l'état du formulaire
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true); // Démarre l'état de chargement
-
-    // Vérification des données envoyées avant d'appeler l'API
-    console.log("Données envoyées au backend :", formData);
-
-    try {
-      // Appel à l'API pour créer un paiement
-      await createPaiement({
-        patientId: Number(formData.patientId), // Convertir en nombre
-        chambreId: Number(formData.chambreId), // Convertir en nombre
-        montant: formData.montant,
-        datePaiement: formData.datePaiement,
-        statut: formData.statut,
-      });
-
+    // Simuler un appel API
+    setTimeout(() => {
+      setIsLoading(false)
       toast({
-        title: "Succès",
-        description: "Le paiement a été enregistré avec succès.",
-      });
-
-      router.push("/paiements");  // Redirige vers la page des paiements après l'ajout
-    } catch (error) {
-      toast({
-        title: "Erreur",
-        description: error instanceof Error ? error.message : "Une erreur s'est produite lors de la création.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false); // Fin de l'état de chargement
-    }
-  };
+        title: "Facture créée avec succès",
+        description: "La facture a été ajoutée au système",
+      })
+      router.push("/paiements")
+    }, 1500)
+  }
 
   return (
     <DashboardShell>
       <DashboardHeader heading="Nouvelle facture" description="Créer une nouvelle facture">
-        <Button variant="outline" onClick={() => router.push("/paiements")}>
-          Retour
-        </Button>
+        <Link href="/paiements">
+          <Button variant="outline">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Retour
+          </Button>
+        </Link>
       </DashboardHeader>
 
       <form onSubmit={handleSubmit}>
-        <div className="space-y-4">
-          {/* Sélectionner le patient */}
-          <div>
-            <Label htmlFor="patientId">Patient</Label>
-            <Select
-              name="patientId"
-              value={formData.patientId}
-              onValueChange={(value) => setFormData({ ...formData, patientId: value })}
-              required
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Sélectionner un patient" />
-              </SelectTrigger>
-              <SelectContent>
-                {patients.length > 0 ? (
-                  patients.map((patient) => (
-                    <SelectItem key={patient.id} value={patient.id.toString()}>
-                      {patient.nom} {patient.prenom}
-                    </SelectItem>
-                  ))
-                ) : (
-                  <SelectItem value="disabled">Aucun patient trouvé</SelectItem>
-                )}
-              </SelectContent>
-            </Select>
-          </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Informations de la facture</CardTitle>
+            <CardDescription>Entrez les détails de la facture</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="patient">Patient</Label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Sélectionner un patient" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="p-1001">Amadou Diop</SelectItem>
+                    <SelectItem value="p-1002">Fatou Ndiaye</SelectItem>
+                    <SelectItem value="p-1003">Ousmane Sow</SelectItem>
+                    <SelectItem value="p-1004">Aïda Fall</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="date">Date d'émission</Label>
+                <Input id="date" type="date" required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="echeance">Date d'échéance</Label>
+                <Input id="echeance" type="date" required />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="type">Type de facture</Label>
+                <Select>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Sélectionner un type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="consultation">Consultation</SelectItem>
+                    <SelectItem value="hospitalisation">Hospitalisation</SelectItem>
+                    <SelectItem value="examen">Examens médicaux</SelectItem>
+                    <SelectItem value="medicaments">Médicaments</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
 
-          {/* Sélectionner la chambre */}
-          <div>
-            <Label htmlFor="chambreId">Chambre</Label>
-            <Select
-              name="chambreId"
-              value={formData.chambreId}
-              onValueChange={(value) => setFormData({ ...formData, chambreId: value })}
-              required
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Sélectionner une chambre" />
-              </SelectTrigger>
-              <SelectContent>
-                {chambres.length > 0 ? (
-                  chambres.map((chambre) => (
-                    <SelectItem key={chambre.id} value={chambre.id.toString()}>
-                      {chambre.numero}
-                    </SelectItem>
-                  ))
-                ) : (
-                  <SelectItem value="disabled">Aucune chambre trouvée</SelectItem>
-                )}
-              </SelectContent>
-            </Select>
-          </div>
+            <div className="space-y-2 mt-4">
+              <Label>Éléments de la facture</Label>
+              <div className="rounded-md border">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b">
+                      <th className="text-left p-2 text-sm font-medium">Description</th>
+                      <th className="text-left p-2 text-sm font-medium">Quantité</th>
+                      <th className="text-left p-2 text-sm font-medium">Prix unitaire</th>
+                      <th className="text-left p-2 text-sm font-medium">Total</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-b">
+                      <td className="p-2">
+                        <Input placeholder="Description" />
+                      </td>
+                      <td className="p-2">
+                        <Input type="number" min="1" defaultValue="1" />
+                      </td>
+                      <td className="p-2">
+                        <Input type="number" min="0" placeholder="Prix" />
+                      </td>
+                      <td className="p-2">
+                        <Input type="number" disabled placeholder="0" />
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colSpan={4} className="p-2">
+                        <Button variant="outline" type="button" className="w-full">
+                          + Ajouter un élément
+                        </Button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr className="border-t">
+                      <td colSpan={3} className="p-2 text-right font-medium">
+                        Total:
+                      </td>
+                      <td className="p-2">
+                        <Input type="number" disabled placeholder="0" />
+                      </td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
 
-          {/* Date du paiement */}
-          <div>
-            <Label htmlFor="datePaiement">Date du paiement</Label>
-            <Input
-              id="datePaiement"
-              name="datePaiement"
-              type="date"
-              value={formData.datePaiement}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* Montant */}
-          <div>
-            <Label htmlFor="montant">Montant</Label>
-            <Input
-              id="montant"
-              name="montant"
-              type="number"
-              value={formData.montant}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* Statut */}
-          <div>
-            <Label htmlFor="statut">Statut</Label>
-            <Input
-              id="statut"
-              name="statut"
-              type="text"
-              value={formData.statut}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          {/* Soumettre */}
-          <Button type="submit" disabled={isLoading}>
-            {isLoading ? "Enregistrement..." : "Créer la facture"}
-          </Button>
-        </div>
+            <div className="space-y-2">
+              <Label htmlFor="notes">Notes</Label>
+              <Textarea id="notes" placeholder="Notes supplémentaires" rows={3} />
+            </div>
+          </CardContent>
+          <CardFooter className="flex justify-end space-x-2 border-t p-6">
+            <Button variant="outline" onClick={() => router.push("/paiements")}>
+              Annuler
+            </Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Enregistrement..." : "Créer la facture"}
+            </Button>
+          </CardFooter>
+        </Card>
       </form>
     </DashboardShell>
-  );
+  )
 }
