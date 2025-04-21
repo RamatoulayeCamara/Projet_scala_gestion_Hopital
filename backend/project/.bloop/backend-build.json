@@ -2,15 +2,15 @@
     "version": "1.4.0",
     "project": {
         "name": "backend-build",
-        "directory": "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project",
-        "workspaceDir": "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project",
+        "directory": "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project",
+        "workspaceDir": "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project",
         "sources": [
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\src\\main\\scala",
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\src\\main\\scala-2.12",
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\src\\main\\scala-2",
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\src\\main\\java",
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\src\\main\\scala-sbt-1.0",
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\target\\scala-2.12\\sbt-1.0\\src_managed\\main"
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\src\\main\\scala",
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\src\\main\\scala-2.12",
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\src\\main\\scala-2",
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\src\\main\\java",
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\src\\main\\scala-sbt-1.0",
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\target\\scala-2.12\\sbt-1.0\\src_managed\\main"
         ],
         "dependencies": [
             
@@ -159,11 +159,11 @@
             "C:\\Users\\raman\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\slf4j\\jcl-over-slf4j\\1.7.30\\jcl-over-slf4j-1.7.30.jar",
             "C:\\Users\\raman\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\lihaoyi\\sourcecode_2.12\\0.4.2\\sourcecode_2.12-0.4.2.jar"
         ],
-        "out": "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\.bloop\\backend-build",
-        "classesDir": "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\.bloop\\backend-build\\scala-2.12\\sbt-1.0\\classes",
+        "out": "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\.bloop\\backend-build",
+        "classesDir": "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\.bloop\\backend-build\\scala-2.12\\sbt-1.0\\classes",
         "resources": [
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\src\\main\\resources",
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\target\\scala-2.12\\sbt-1.0\\resource_managed\\main"
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\src\\main\\resources",
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\target\\scala-2.12\\sbt-1.0\\resource_managed\\main"
         ],
         "scala": {
             "organization": "org.scala-lang",
@@ -270,7 +270,7 @@
             "config": {
                 "home": "C:\\Program Files\\Java\\jdk-21",
                 "options": [
-                    "-Duser.dir=C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project"
+                    "-Duser.dir=C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project"
                 ]
             },
             "mainClass": [
@@ -279,11 +279,11 @@
             "runtimeConfig": {
                 "home": "C:\\Program Files\\Java\\jdk-21",
                 "options": [
-                    "-Duser.dir=C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project"
+                    "-Duser.dir=C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project"
                 ]
             },
             "classpath": [
-                "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\.bloop\\backend-build\\scala-2.12\\sbt-1.0\\classes",
+                "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\.bloop\\backend-build\\scala-2.12\\sbt-1.0\\classes",
                 "C:\\Users\\raman\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\sbt-bloop_2.12_1.0\\2.0.9\\sbt-bloop_2.12_1.0-2.0.9.jar",
                 "C:\\Users\\raman\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\playframework\\sbt-plugin_2.12_1.0\\3.0.7\\sbt-plugin_2.12_1.0-3.0.7.jar",
                 "C:\\Users\\raman\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\foundweekends\\giter8\\sbt-giter8-scaffold_2.12_1.0\\0.17.0\\sbt-giter8-scaffold_2.12_1.0-0.17.0.jar",

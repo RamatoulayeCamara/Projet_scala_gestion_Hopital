@@ -7,13 +7,14 @@ import { fetchMateriels, deleteMateriel } from "@/lib/api";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
 import { Materiel } from "@/types";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader } from "lucide-react";
-
+import { DashboardHeader } from "@/components/dashboard-header";
+import { DashboardShell } from "@/components/dashboard-shell";
+import { PlusCircle, Search, Trash2, Edit } from "lucide-react";
 
 export default function MaterielsPage() {
   const [materiels, setMateriels] = useState<Materiel[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
   const { toast } = useToast();
 
   useEffect(() => {
@@ -54,18 +55,32 @@ export default function MaterielsPage() {
     }
   };
 
+  const filteredMateriels = materiels.filter((materiel) =>
+    materiel.nom.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div className="space-y-8">
-      <Card>
-        <CardHeader className="flex justify-between items-center">
-          <CardTitle>Liste des matériels</CardTitle>
-          <Link href="/materiels/add">
-            <Button className="bg-blue-500 text-white hover:bg-blue-600">
-              Ajouter un matériel
-            </Button>
-          </Link>
-        </CardHeader>
-      </Card>
+    <DashboardShell>
+      <DashboardHeader heading="Gestion des matériels" description="Consultez et gérez les matériels de l'hôpital">
+        <Link href="/materiels/add">
+          <Button>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Ajouter un matériel
+          </Button>
+        </Link>
+      </DashboardHeader>
+
+      <div className="flex items-center py-4">
+        <div className="relative w-full max-w-sm">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+          <input
+            placeholder="Rechercher un matériel..."
+            className="w-full pl-8"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+      </div>
 
       {isLoading ? (
         <div className="flex justify-center p-8">
@@ -82,18 +97,18 @@ export default function MaterielsPage() {
                 <TableHead>Fournisseur</TableHead>
                 <TableHead>Date d'entrée</TableHead>
                 <TableHead>Date de sortie</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {materiels.length === 0 ? (
+              {filteredMateriels.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={6} className="text-center py-8">
+                  <TableCell colSpan={7} className="text-center py-8">
                     Aucun matériel trouvé
                   </TableCell>
                 </TableRow>
               ) : (
-                materiels.map((materiel) => (
+                filteredMateriels.map((materiel) => (
                   <TableRow key={materiel.id} className="even:bg-gray-100">
                     <TableCell>{materiel.id}</TableCell>
                     <TableCell>{materiel.nom}</TableCell>
@@ -101,11 +116,11 @@ export default function MaterielsPage() {
                     <TableCell>{materiel.fournisseur}</TableCell>
                     <TableCell>{materiel.dateEntree}</TableCell>
                     <TableCell>{materiel.dateSortie || "Non défini"}</TableCell>
-                    <TableCell>
+                    <TableCell className="text-right">
                       <div className="flex justify-end gap-2">
                         <Link href={`/materiels/edit/${materiel.id}`}>
                           <Button variant="ghost" size="sm">
-                            Modifier
+                            <Edit className="h-4 w-4" />
                           </Button>
                         </Link>
                         <Button
@@ -114,7 +129,7 @@ export default function MaterielsPage() {
                           onClick={() => handleDelete(materiel.id!)}
                           className="text-red-500"
                         >
-                          Supprimer
+                          <Trash2 className="h-4 w-4" />
                         </Button>
                       </div>
                     </TableCell>
@@ -125,6 +140,6 @@ export default function MaterielsPage() {
           </Table>
         </div>
       )}
-    </div>
+    </DashboardShell>
   );
 }

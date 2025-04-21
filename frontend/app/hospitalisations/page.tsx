@@ -5,6 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { fetchHospitalisations } from "@/lib/api";  // Importez votre fonction API pour récupérer les hospitalisations
 import { useToast } from "@/components/ui/use-toast"; // Importez le toast pour gérer les notifications
+import { DashboardHeader } from "@/components/dashboard-header";
+import { DashboardShell } from "@/components/dashboard-shell";
+import { PlusCircle } from "lucide-react";
 
 export default function HospitalisationsPage() {
   const [hospitalisations, setHospitalisations] = useState<any[]>([]);  // État pour stocker la liste des hospitalisations
@@ -31,8 +34,13 @@ export default function HospitalisationsPage() {
   }, [toast]);
 
   return (
-    <div className="max-w-6xl mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-4">Hospitalisations</h1>
+    <DashboardShell>
+      <DashboardHeader heading="Hospitalisations" description="Consultez et gérez les hospitalisations">
+        <Button  onClick={() => {/* Ajoutez la logique pour ajouter une nouvelle hospitalisation */}}>
+        <PlusCircle className="mr-2 h-4 w-4" />
+          Ajouter une hospitalisation
+        </Button>
+      </DashboardHeader>
 
       {isLoading ? (
         <div className="flex justify-center p-8">
@@ -64,8 +72,8 @@ export default function HospitalisationsPage() {
                     <TableCell>{hospitalisation.motif}</TableCell>
                     <TableCell>{hospitalisation.dateEntree}</TableCell>
                     <TableCell>{hospitalisation.dateSortie || "Non défini"}</TableCell>
-                    <TableCell>
-                      {/* Ajoutez des actions si nécessaire, comme "Voir" ou "Supprimer" */}
+                    <TableCell className="text-right">
+                      {/* Ajoutez des actions comme "Voir" ou "Modifier" */}
                       <Button variant="ghost" size="sm">Voir</Button>
                     </TableCell>
                   </TableRow>
@@ -75,6 +83,6 @@ export default function HospitalisationsPage() {
           </Table>
         </div>
       )}
-    </div>
+    </DashboardShell>
   );
 }

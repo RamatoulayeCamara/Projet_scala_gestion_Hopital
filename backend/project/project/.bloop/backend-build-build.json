@@ -2,15 +2,15 @@
     "version": "1.4.0",
     "project": {
         "name": "backend-build-build",
-        "directory": "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project",
-        "workspaceDir": "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project",
+        "directory": "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project",
+        "workspaceDir": "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project",
         "sources": [
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project\\src\\main\\scala",
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project\\src\\main\\scala-2.12",
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project\\src\\main\\scala-2",
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project\\src\\main\\java",
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project\\src\\main\\scala-sbt-1.0",
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project\\target\\scala-2.12\\sbt-1.0\\src_managed\\main"
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project\\src\\main\\scala",
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project\\src\\main\\scala-2.12",
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project\\src\\main\\scala-2",
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project\\src\\main\\java",
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project\\src\\main\\scala-sbt-1.0",
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project\\target\\scala-2.12\\sbt-1.0\\src_managed\\main"
         ],
         "dependencies": [
             
@@ -104,11 +104,11 @@
             "C:\\Users\\raman\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\org\\reactivestreams\\reactive-streams\\1.0.3\\reactive-streams-1.0.3.jar",
             "C:\\Users\\raman\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\typesafe\\config\\1.4.2\\config-1.4.2.jar"
         ],
-        "out": "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project\\.bloop\\backend-build-build",
-        "classesDir": "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project\\.bloop\\backend-build-build\\scala-2.12\\sbt-1.0\\classes",
+        "out": "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project\\.bloop\\backend-build-build",
+        "classesDir": "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project\\.bloop\\backend-build-build\\scala-2.12\\sbt-1.0\\classes",
         "resources": [
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project\\src\\main\\resources",
-            "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project\\target\\scala-2.12\\sbt-1.0\\resource_managed\\main"
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project\\src\\main\\resources",
+            "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project\\target\\scala-2.12\\sbt-1.0\\resource_managed\\main"
         ],
         "scala": {
             "organization": "org.scala-lang",
@@ -216,7 +216,7 @@
             "config": {
                 "home": "C:\\Program Files\\Java\\jdk-21",
                 "options": [
-                    "-Duser.dir=C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project"
+                    "-Duser.dir=C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project"
                 ]
             },
             "mainClass": [
@@ -225,11 +225,11 @@
             "runtimeConfig": {
                 "home": "C:\\Program Files\\Java\\jdk-21",
                 "options": [
-                    "-Duser.dir=C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project"
+                    "-Duser.dir=C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project"
                 ]
             },
             "classpath": [
-                "C:\\Users\\raman\\OneDrive\\Bureau\\weral-master\\backend\\project\\project\\.bloop\\backend-build-build\\scala-2.12\\sbt-1.0\\classes",
+                "C:\\Users\\raman\\OneDrive\\Bureau\\Projet_scala_gestion_Hopital\\backend\\project\\project\\.bloop\\backend-build-build\\scala-2.12\\sbt-1.0\\classes",
                 "C:\\Users\\raman\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\sbt-bloop_2.12_1.0\\2.0.9\\sbt-bloop_2.12_1.0-2.0.9.jar",
                 "C:\\Users\\raman\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\ch\\epfl\\scala\\bloop-config_2.12\\2.3.2\\bloop-config_2.12-2.3.2.jar",
                 "C:\\Users\\raman\\AppData\\Local\\Coursier\\Cache\\v1\\https\\repo1.maven.org\\maven2\\com\\github\\plokhotnyuk\\jsoniter-scala\\jsoniter-scala-core_2.12\\2.13.5.2\\jsoniter-scala-core_2.12-2.13.5.2.jar",

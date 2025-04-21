@@ -10,7 +10,7 @@ import { DashboardShell } from "@/components/dashboard-shell"
 import { PlusCircle, Search, Trash2, Edit, Calendar } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import type { RendezVous } from "@/types"
-import { fetchRendezVous, deleteRendezVous } from "@/lib/api"
+import { fetchRendezVous, deleteRendezVous ,createRendezVous} from "@/lib/api"
 
 export default function RendezVousPage() {
   const [rendezVous, setRendezVous] = useState<RendezVous[]>([])
@@ -55,6 +55,23 @@ export default function RendezVousPage() {
       }
     }
   }
+  const handleAdd = async (rendezVousData: RendezVous) => {
+    try {
+      const response = await createRendezVous(rendezVousData)
+      setRendezVous([...rendezVous, response])
+      toast({
+        title: "Succès",
+        description: "Rendez-vous ajouté avec succès",
+      })
+    } catch (error) {
+      toast({
+        title: "Erreur",
+        description: "Impossible d'ajouter le rendez-vous",
+        variant: "destructive",
+      })
+    }
+  }
+  
 
   // Filtrer les rendez-vous par date ou motif
   const filteredRendezVous = rendezVous.filter(
